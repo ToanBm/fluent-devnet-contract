@@ -1,8 +1,8 @@
-## Fluent-Contract-Deployment-On-Devnet
+## Guide To Deploy Fluent Contract On Devnet
 - Project twitter : [fluentxyz](https://x.com/fluentxyz)
-- Follow me : [zunxbt](https://x.com/ZunXBT)
+- Follow me : [toanbm](https://x.com/buiminhtoan1985)
 ---
-- Open [Codespace](https://github.com/codespaces) or [Gitpod](https://gitpod.io/workspaces) (If it is taking long time to open then try to open in incognito tab)
+- Open [Codespace](https://github.com/codespaces) 
 - Use Burner Wallet (Wallet which have no real funds)
 - Request fluent faucet here : [Faucet Link](https://faucet.dev.thefluent.xyz/)
 - Enter the below command to start deployment
@@ -19,4 +19,6 @@ Choose your setup:
   Rust
   Exit
 ```
-- Press `Enter` in the keyboard
+- Press `Enter`
+
+  ## Thank you!
