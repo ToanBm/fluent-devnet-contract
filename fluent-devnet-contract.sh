@@ -1,5 +1,15 @@
 #!/bin/bash
 
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+YELLOW=$(tput setaf 3)
+
+print_command() {
+  echo -e "${BOLD}${YELLOW}$1${RESET}"
+}
+
+cd $HOME
+
 # Logo
 
 echo -e "\033[0;34m"
@@ -13,17 +23,6 @@ echo "Gitbook: https://docs.validatorvn.com"
 echo "Chanel: https://t.me/ValidatorVN"
 echo "Github: https://github.com/NodeValidatorVN"
 echo -e "\e[0m"
-
-
-BOLD=$(tput bold)
-RESET=$(tput sgr0)
-YELLOW=$(tput setaf 3)
-
-print_command() {
-  echo -e "${BOLD}${YELLOW}$1${RESET}"
-}
-
-cd $HOME
 
 print_command "Installing Cargo..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
