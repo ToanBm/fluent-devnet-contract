@@ -6,6 +6,17 @@ YELLOW=$(tput setaf 3)
 
 # Logo
 
+  888                                    888
+  888                                    888
+8888888                                  888
+8888888     888888    888888   88888     888888    88888   8888  
+  888      88888888       888  88888888  88888888  8888888888888
+  888      888  888   8888888  888  888  888  888  888  888  888
+  888  88  888  888  888  888  888  888  888  888  888  888  888
+  8888888  88888888  88888888  888  888  88888888  888  888  888
+   888      888888    888888   888  888  8888888   888  888  888
+
+   
 echo -e "\033[0;34m"
 echo "++++++++++++++++"
 echo "++++++++++++++++"
@@ -13,9 +24,9 @@ echo "      +++       "
 echo "      +++       "
 echo "      +++       "
 echo "      +++       "
-echo "Gitbook: https://docs.validatorvn.com"
-echo "Chanel: https://t.me/ValidatorVN"
-echo "Github: https://github.com/NodeValidatorVN"
+echo ""
+echo ""
+echo ""
 echo -e "\e[0m"
 
 print_command() {
