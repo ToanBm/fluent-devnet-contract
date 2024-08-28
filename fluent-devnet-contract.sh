@@ -3,30 +3,27 @@
 BOLD=$(tput bold)
 RESET=$(tput sgr0)
 YELLOW=$(tput setaf 3)
-
 # Logo
-
 echo -e "\033[0;34m"
-echo     "  888                                    888                    "
-echo     "  888                                    888                    "
-echo     "8888888                                  888                    "
-echo     "8888888     888888    888888   88888     888888    88888   8888 "
-echo     "  888      88888888       888  88888888  88888888  8888888888888"
-echo     "  888      888  888   8888888  888  888  888  888  888  888  888"
-echo     "  888  88  888  888  888  888  888  888  888  888  888  888  888"
-echo     "  8888888  88888888  88888888  888  888  88888888  888  888  888"
-echo     "   888      888888    888888   888  888  8888888   888  888  888"
+echo     "  888                                        888                       "
+echo     "  888                                        888                       "
+echo     "  88888888                                   888                       "
+echo     "  88888888   8888888    8888888   888888     8888888    888888   88888 "
+echo     "  888       888888888        888  888888888  888888888  888888888888888"
+echo     "  888       888   888   88888888  888   888  888   888  888   888   888"
+echo     "  888   88  888   888  888   888  888   888  888   888  888   888   888"
+echo     "  88888888  888888888  888888888  888   888  888888888  888   888   888"
+echo     "   88888     8888888    8888888   888   888  88888888   888   888   888"
 
+echo     "*********************************************"
 echo     "Githuh: https://github.com/ToanBm"
 echo     "X: https://x.com/buiminhtoan1985"
 echo -e "\e[0m"
-
 
 print_command() {
   echo -e "${BOLD}${YELLOW}$1${RESET}"
 }
 
-cd $HOME
 
 print_command "Installing Cargo..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
@@ -58,24 +55,60 @@ print_command "Installing gblend tool..."
 cargo install gblend
 
 print_command "Running gblend..."
-gblend
+gblend --blendedapp
 
-print_command "Installing dependencies..."
-npm install
+print_command "Installing dependencies (may take 2-3 mins)..."
+npm install @nomicfoundation/hardhat-ethers@^3.0.7 @nomicfoundation/hardhat-toolbox@^5.0.0 @nomicfoundation/hardhat-verify@^2.0.0 @nomiclabs/hardhat-vyper@^3.0.7 @openzeppelin/contracts@^5.0.2 @typechain/ethers-v6@^0.5.0 @typechain/hardhat@^9.0.0 @types/node@^20.12.12 dotenv@^16.4.5 ethers@^6.13.2 hardhat@^2.22.4 hardhat-deploy@^0.12.4 ts-node@^10.9.2 typescript@^5.4.5
 
-print_command "Installing dotenv package..."
-npm install dotenv
+cat <<EOF > contracts/hello.sol
+// SPDX-License-Identifier: MIT
+    pragma solidity ^0.8.0;
+    contract Hello {
+        function main() public pure returns (string memory) {
+            return "Hello, Solidity!";
+        }
+    }
+EOF
 
-print_command "Removing hardhat.config.js file..."
-rm hardhat.config.js
+rm -rf deploy
+mkdir -p deploy
+cat <<EOF > deploy/01_deploy_hello.ts
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
 
-print_command "Updating hardhat.config.js..."
-cat <<EOF > hardhat.config.js
-require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-vyper");
-require("dotenv").config();
+const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+    const { deployments, getNamedAccounts } = hre;
+    const { deploy } = deployments;
+    const { deployer } = await getNamedAccounts();
 
-module.exports = {
+    console.log("Deploying contracts with the account:", deployer);
+
+    const token = await deploy("Hello", {
+        from: deployer,
+        log: true,
+    });
+
+    console.log("Hello contract deployed to:", token.address);
+};
+
+export default deployFunction;
+deployFunction.tags = ["Hello"];
+EOF
+
+print_command "Removing hardhat.config.ts file..."
+rm hardhat.config.ts
+
+print_command "Updating hardhat.config.ts..."
+cat <<EOF > hardhat.config.ts
+import { HardhatUserConfig } from "hardhat/types";
+import "@nomicfoundation/hardhat-ethers";
+import "@nomiclabs/hardhat-vyper";
+import "hardhat-deploy";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const config: HardhatUserConfig = {
   defaultNetwork: "fluent_devnet1",
   networks: {
     fluent_devnet1: {
@@ -90,7 +123,14 @@ module.exports = {
   vyper: {
     version: "0.3.0",
   },
+  namedAccounts: {
+    deployer: {
+      default: 0,
+    },
+  },
 };
+
+export default config;
 EOF
 
 read -p "Enter your EVM wallet private key (without 0x): " WALLET_PRIVATE_KEY
@@ -101,7 +141,7 @@ DEPLOYER_PRIVATE_KEY=$WALLET_PRIVATE_KEY
 EOF
 
 print_command "Compiling smart contracts..."
-npm run compile
+npx hardhat compile
 
 print_command "Deploying smart contracts..."
-npm run deploy
+npx hardhat deploy
