@@ -1,4 +1,4 @@
-## Guide To Deploy Fluent Contract On Devnet
+## Guide To Deploy Fluent Contract On Devnet (dxzenith)
 - Project twitter : [fluentxyz](https://x.com/fluentxyz)
 - Follow me : [toanbm](https://x.com/buiminhtoan1985)
 ---
