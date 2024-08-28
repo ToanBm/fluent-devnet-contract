@@ -9,16 +9,9 @@
 ```bash
 wget https://raw.githubusercontent.com/ToanBm/fluent-devnet-contract/main/fluent-devnet-contract.sh && chmod +x fluent-devnet-contract.sh && ./fluent-devnet-contract.sh
 ```
-- After using `gblend` command, it will ask you something like this
-```bash
-Welcome to gblend dev tool 🚀
+- Enter your EVM wallet private key (without 0x):...
+- Hello contract deployed to: 0x.. > Done!
+- Check you contract: [Explorer](https://blockscout.dev.thefluent.xyz/)
 
-Choose your setup:
-> Hardhat JavaScript (Solidity & Vyper)
-  Hardhat TypeScript (Solidity & Vyper)
-  Rust
-  Exit
-```
-- Press `Enter`
 
   ## Thank you!
