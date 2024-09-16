@@ -58,7 +58,7 @@ print_command "Running gblend..."
 gblend --blendedapp
 
 print_command "Installing dependencies (may take 2-3 mins)..."
-npm install @nomicfoundation/hardhat-ethers@^3.0.7 @nomicfoundation/hardhat-toolbox@^5.0.0 @nomicfoundation/hardhat-verify@^2.0.0 @nomiclabs/hardhat-vyper@^3.0.7 @openzeppelin/contracts@^5.0.2 @typechain/ethers-v6@^0.5.0 @typechain/hardhat@^9.0.0 @types/node@^20.12.12 dotenv@^16.4.5 ethers@^6.13.2 hardhat@^2.22.4 hardhat-deploy@^0.12.4 ts-node@^10.9.2 typescript@^5.4.5
+npm install --force
 
 cat <<EOF > contracts/hello.sol
 // SPDX-License-Identifier: MIT
