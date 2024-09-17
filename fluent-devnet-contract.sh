@@ -24,6 +24,8 @@ print_command() {
   echo -e "${BOLD}${YELLOW}$1${RESET}"
 }
 
+print_command "Creat Folder..."
+mkdir fluent-contract && cd fluent-contract
 
 print_command "Installing Cargo..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
