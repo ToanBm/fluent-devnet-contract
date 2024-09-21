@@ -80,8 +80,8 @@ print_command "Compiling contract..."
 npm run compile
 
 ## Deploying the Solidity contract
-rm scirpts/deploy.js
-cat <<EOF > scirpts/deploy.js
+rm scripts/deploy.js
+cat <<EOF > scripts/deploy.js
 const { ethers } = require("hardhat");
 
 async function main() {
