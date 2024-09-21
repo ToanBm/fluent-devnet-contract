@@ -15,9 +15,6 @@ print_command() {
 }
 
 ## Install Fluent scaffold CLI tool
-print_command "Creat Folder..."
-mkdir fluent-contract && cd fluent-contract
-
 print_command "Installing Cargo..."
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 . "$HOME/.cargo/env"
@@ -33,6 +30,41 @@ gblend
 print_command "Installing dependencies (may take 2-3 mins)..."
 npm install
 npm install dotenv
+
+## Hardhat Configs
+print_command "Updating hardhat.config.js..."
+rm hardhat.config.js
+
+cat <<EOF > hardhat.config.js
+require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-vyper");
+require("dotenv").config();
+
+module.exports = {
+  defaultNetwork: "fluent_devnet1", // Set fluent_devnet1 as the default network
+  networks: {
+    fluent_devnet1: {
+      url: 'https://rpc.dev.thefluent.xyz/',
+      chainId: 20993,
+      accounts: [`0x${process.env.PRIVATE_KEY}`], // Load private key from .env
+    },
+  },
+  solidity: {
+    version: '0.8.19',
+  },
+  vyper: {
+    version: "0.3.0",
+  },
+};
+EOF
+
+## Crear .env file
+read -p "Enter your EVM wallet private key (without 0x): " PRIVATE_KEY
+
+print_command "Generating .env file..."
+cat <<EOF > .env
+DEPLOYER_PRIVATE_KEY=$PRIVATE_KEY
+EOF
 
 ## Compiling the Smart Contract
 cat <<EOF > contracts/hello.sol
@@ -71,42 +103,6 @@ main()
         console.error(error);
         process.exit(1);
     });
-
-EOF
-
-## Hardhat Configs
-print_command "Updating hardhat.config.js..."
-rm hardhat.config.js
-
-cat <<EOF > hardhat.config.js
-require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-vyper");
-require("dotenv").config();
-
-module.exports = {
-  defaultNetwork: "fluent_devnet1", // Set fluent_devnet1 as the default network
-  networks: {
-    fluent_devnet1: {
-      url: 'https://rpc.dev.thefluent.xyz/',
-      chainId: 20993,
-      accounts: [`0x${process.env.PRIVATE_KEY}`], // Load private key from .env
-    },
-  },
-  solidity: {
-    version: '0.8.19',
-  },
-  vyper: {
-    version: "0.3.0",
-  },
-};
-EOF
-
-## Crear .env file
-read -p "Enter your EVM wallet private key (without 0x): " PRIVATE_KEY
-
-print_command "Generating .env file..."
-cat <<EOF > .env
-DEPLOYER_PRIVATE_KEY=$PRIVATE_KEY
 EOF
 
 ## To deploy the compiled solidity smart contract, run:
