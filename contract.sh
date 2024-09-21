@@ -20,11 +20,9 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 . "$HOME/.cargo/env"
 
 print_command "Installing gblend tool..."
-print_command "Choose your setup: Hardhat JavaScript (Solidity & Vyper)"
-
 cargo install gblend
 
-print_command "Running gblend..."
+print_command "Choose your setup: Hardhat JavaScript (Solidity & Vyper)"
 gblend
 
 print_command "Installing dependencies (may take 2-3 mins)..."
@@ -63,10 +61,11 @@ read -p "Enter your EVM wallet private key (without 0x): " PRIVATE_KEY
 
 print_command "Generating .env file..."
 cat <<EOF > .env
-DEPLOYER_PRIVATE_KEY=$PRIVATE_KEY
+PRIVATE_KEY=$PRIVATE_KEY
 EOF
 
 ## Compiling the Smart Contract
+rm contracts/hello.sol
 cat <<EOF > contracts/hello.sol
 // SPDX-License-Identifier: MIT
     pragma solidity ^0.8.0;
@@ -81,8 +80,8 @@ print_command "Compiling contract..."
 npm run compile
 
 ## Deploying the Solidity contract
-rm -rf deploy/deploy.js
-cat <<EOF > deploy/deploy.js
+rm scirpts/deploy.js
+cat <<EOF > scirpts/deploy.js
 const { ethers } = require("hardhat");
 
 async function main() {
