@@ -23,6 +23,8 @@ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 . "$HOME/.cargo/env"
 
 print_command "Installing gblend tool..."
+print_command "Choose your setup: Hardhat JavaScript (Solidity & Vyper)"
+
 cargo install gblend
 
 print_command "Running gblend..."
@@ -72,11 +74,11 @@ main()
 
 EOF
 
-print_command "Removing hardhat.config.ts file..."
-rm hardhat.config.ts
+## Hardhat Configs
+print_command "Updating hardhat.config.js..."
+rm hardhat.config.js
 
-print_command "Updating hardhat.config.ts..."
-cat <<EOF > hardhat.config.ts
+cat <<EOF > hardhat.config.js
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-vyper");
 require("dotenv").config();
@@ -109,4 +111,9 @@ EOF
 
 ## To deploy the compiled solidity smart contract, run:
 print_command "Deploying smart contracts..."
-pnpm deploy-viper
+npm run deploy
+
+
+
+
+
