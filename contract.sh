@@ -33,7 +33,7 @@ npm install dotenv
 print_command "Updating hardhat.config.js..."
 rm hardhat.config.js
 
-cat <<EOF > hardhat.config.js
+cat <<'EOF' > hardhat.config.js
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-vyper");
 require("dotenv").config();
