@@ -44,7 +44,7 @@ module.exports = {
     fluent_devnet1: {
       url: 'https://rpc.dev.thefluent.xyz/',
       chainId: 20993,
-      accounts: [`0x\${process.env.PRIVATE_KEY}`],
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
   },
   solidity: {
