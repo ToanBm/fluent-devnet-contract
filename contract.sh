@@ -44,7 +44,7 @@ module.exports = {
     fluent_devnet1: {
       url: 'https://rpc.dev.thefluent.xyz/',
       chainId: 20993,
-      accounts: [`0x${process.env.PRIVATE_KEY}`], // Load private key from .env
+      accounts: [`0x\${process.env.PRIVATE_KEY}`],
     },
   },
   solidity: {
@@ -75,8 +75,6 @@ cat <<EOF > contracts/hello.sol
         }
     }
 EOF
-
-sleep 5
 
 print_command "Compiling contract..."
 npm run compile
