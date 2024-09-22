@@ -104,6 +104,9 @@ main()
     });
 EOF
 
+# "Waiting before deploying..."
+sleep 10
+
 ## To deploy the compiled solidity smart contract, run:
 print_command "Deploying smart contracts..."
 npm run deploy
