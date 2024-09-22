@@ -76,6 +76,8 @@ cat <<EOF > contracts/hello.sol
     }
 EOF
 
+sleep 5
+
 print_command "Compiling contract..."
 npm run compile
 
@@ -105,7 +107,7 @@ main()
 EOF
 
 # "Waiting before deploying..."
-sleep 10
+sleep 5
 
 ## To deploy the compiled solidity smart contract, run:
 print_command "Deploying smart contracts..."
