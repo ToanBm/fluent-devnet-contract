@@ -23,7 +23,7 @@ print_command "Installing gblend tool..."
 cargo install gblend
 
 print_command "Choose your setup: Hardhat JavaScript (Solidity & Vyper)"
-gblend
+gblend init
 
 print_command "Installing dependencies (may take 2-3 mins)..."
 npm install
@@ -105,7 +105,7 @@ main()
 EOF
 
 # "Waiting before deploying..."
-sleep 5
+sleep 3
 
 ## To deploy the compiled solidity smart contract, run:
 print_command "Deploying smart contracts..."
