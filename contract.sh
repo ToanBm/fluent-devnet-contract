@@ -128,6 +128,11 @@ fi
 for ((i=1; i<=NUMBER_OF_CONTRACTS; i++)); do
   print_command "Deploying contract #$i..."
   npx hardhat run scripts/deploy-solidity.js --network fluent_devnet1
+
+  # Thời gian chờ ngẫu nhiên từ 3 đến 7 giây
+  RANDOM_DELAY=$(shuf -i 3-7 -n 1)  # Chọn số ngẫu nhiên từ 3 đến 7
+  echo "Waiting for $RANDOM_DELAY seconds before next deploy..."
+  sleep $RANDOM_DELAY
 done
 
 print_command "Successfully deployed $NUMBER_OF_CONTRACTS smart contracts!"
