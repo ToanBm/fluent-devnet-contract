@@ -14,7 +14,7 @@ chmod +x contract.sh && ./contract.sh
 ```
 ### - Choose your setup: Hardhat JavaScript (Solidity & Vyper)
 - Enter your EVM wallet private key (without 0x):...
-- Hello contract deployed to: 0x.. > Done!
+- Enter the number of contracts to deploy: ...
 - Check you contract: [Explorer](https://blockscout.dev.gblend.xyz/)
 
   ## Thank you!
