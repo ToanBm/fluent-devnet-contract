@@ -109,7 +109,7 @@ sleep 3
 
 ## To deploy the compiled solidity smart contract, run:
 print_command "Deploying smart contracts..."
-npm run deploy
+npx hardhat run scripts/deploy-solidity.js --network fluent_devnet1
 
 
 
