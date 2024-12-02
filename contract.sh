@@ -115,7 +115,20 @@ EOF
 # "Waiting before deploying..."
 sleep 3
 
-## To deploy the compiled solidity smart contract, run:
-print_command "Deploying smart contracts..."
-npx hardhat run scripts/deploy-solidity.js --network fluent_devnet1
+# Yêu cầu nhập số lượng contract cần deploy
+read -p "Enter the number of contracts to deploy: " NUMBER_OF_CONTRACTS
+
+# Kiểm tra số lượng có phải là số hợp lệ không
+if ! [[ "$NUMBER_OF_CONTRACTS" =~ ^[0-9]+$ ]]; then
+  echo "Invalid input. Please enter a valid number."
+  exit 1
+fi
+
+# Lặp lệnh deploy
+for ((i=1; i<=NUMBER_OF_CONTRACTS; i++)); do
+  print_command "Deploying contract #$i..."
+  npx hardhat run scripts/deploy-solidity.js --network fluent_devnet1
+done
+
+print_command "Successfully deployed $NUMBER_OF_CONTRACTS smart contracts!"
 
