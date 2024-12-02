@@ -42,7 +42,7 @@ module.exports = {
   defaultNetwork: "fluent_devnet1", // Set fluent_devnet1 as the default network
   networks: {
     fluent_devnet1: {
-      url: 'https://rpc.dev.thefluent.xyz/',
+      url: 'https://rpc.dev.gblend.xyz/',
       chainId: 20993,
       accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
@@ -80,28 +80,36 @@ print_command "Compiling contract..."
 npm run compile
 
 ## Deploying the Solidity contract
-rm scripts/deploy.js
-cat <<EOF > scripts/deploy.js
+rm scripts/deploy-solidity.js
+cat <<EOF > scripts/deploy-solidity.js
 const { ethers } = require("hardhat");
 
 async function main() {
-    const [deployer] = await ethers.getSigners();
-  
-    console.log("Deploying contracts with the account:", deployer.address);
-  
-    const Token = await ethers.getContractFactory("Hello");
-    const token = await Token.deploy();
+  const [deployer] = await ethers.getSigners();
+  const network = await ethers.provider.getNetwork();
 
-    // Access the address property directly
-    console.log("Token address:", token.address);
+  console.log("Deploying contract...");
+  console.log("Chain ID:", network.chainId);
+  console.log("Deployer address:", deployer.address);
+  console.log(
+    "Deployer balance:",
+    ethers.utils.formatEther(await deployer.getBalance()),
+    "ETH"
+  );
+
+  const ContractFactory = await ethers.getContractFactory("Hello");
+  const contract = await ContractFactory.deploy();
+
+  // Access the address property directly
+  console.log("Contract address:", contract.address);
 }
 
 main()
-    .then(() => process.exit(0))
-    .catch((error) => {
-        console.error(error);
-        process.exit(1);
-    });
+  .then(() => process.exit(0))
+  .catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
 EOF
 
 # "Waiting before deploying..."
@@ -110,8 +118,4 @@ sleep 3
 ## To deploy the compiled solidity smart contract, run:
 print_command "Deploying smart contracts..."
 npx hardhat run scripts/deploy-solidity.js --network fluent_devnet1
-
-
-
-
 
