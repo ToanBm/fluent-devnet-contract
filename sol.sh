@@ -18,7 +18,7 @@ if ! command -v forge &> /dev/null; then
     echo "🔧 Installing Foundry..."
     curl -L https://foundry.paradigm.xyz | bash
     source ~/.bashrc
-    foundryup
+    $HOME/.foundry/bin/foundryup  # Sử dụng đường dẫn tuyệt đối
     export PATH="$HOME/.foundry/bin:$PATH"
 fi
 
