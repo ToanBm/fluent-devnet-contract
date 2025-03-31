@@ -13,23 +13,23 @@ print_command() {
   echo -e "${BOLD}${YELLOW}$1${RESET}"
 }
 
-# Cài đặt Foundry nếu chưa có
+# Install Foundry if not already installed
 if ! command -v forge &> /dev/null; then
     echo "🔧 Installing Foundry..."
     curl -L https://foundry.paradigm.xyz | bash
     source ~/.bashrc
-    $HOME/.foundry/bin/foundryup  # Sử dụng đường dẫn tuyệt đối
+    $HOME/.foundry/bin/foundryup  # Use absolute path
     export PATH="$HOME/.foundry/bin:$PATH"
 fi
 
-# Kiểm tra lại Foundry
+# Verify Foundry installation
 if ! command -v forge &> /dev/null; then
-    echo "❌ Lỗi: Không tìm thấy forge sau khi cài đặt!"
+    echo "❌ Error: 'forge' not found after installation!"
     exit 1
 fi
 
-# Tiếp tục các lệnh khác...
-echo "✅ Forge đã sẵn sàng: $(forge --version)"
+# Proceed with other commands...
+echo "✅ Forge is ready: $(forge --version)"
 
 # Create Solidity Contract
 mkdir -p src
