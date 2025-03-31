@@ -16,7 +16,11 @@ print_command() {
 
 # Install Foundry
 curl -L https://foundry.paradigm.xyz | bash
-source /home/codespace/.bashrc
+
+export PATH="$HOME/.foundry/bin:$PATH"
+echo 'export PATH="$HOME/.foundry/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+
 foundryup
 
 # Install dot env
