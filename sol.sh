@@ -3,11 +3,10 @@
 BOLD=$(tput bold)
 RESET=$(tput sgr0)
 YELLOW=$(tput setaf 3)
-# Logo
 
-echo     "*********************************************"
-echo     "Githuh: https://github.com/ToanBm"
-echo     "X: https://x.com/buiminhtoan1985"
+echo "*********************************************"
+echo "GitHub: https://github.com/ToanBm"
+echo "X: https://x.com/buiminhtoan1985"
 echo -e "\e[0m"
 
 print_command() {
@@ -17,46 +16,46 @@ print_command() {
 # Install Foundry
 curl -L https://foundry.paradigm.xyz | bash
 
+# Ensure Foundry is available
 export PATH="$HOME/.foundry/bin:$PATH"
 echo 'export PATH="$HOME/.foundry/bin:$PATH"' >> ~/.bashrc
 source ~/.bashrc
 
-foundryup
+# Force installation to make sure forge is available
+foundryup --force
 
-# Install dot env
-npm install dotenv
+# Start Foundry Project (force init to avoid errors)
+forge init --force
 
-# Start Foundry Project
-forge init 
-
-# Start Solidity Contract
+# Create Solidity Contract
+mkdir -p src
 cat <<'EOF' > src/Contract.sol
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
 contract SimpleStorage {
-
-    uint256 public storedData; //Do not set 0 manually it wastes gas!
-
+    uint256 public storedData;
     event setEvent();
-    
+
     function set(uint256 x) public {
         storedData = x;
         emit setEvent();
     }
-
 }
 EOF
 
-## Crear .env file
-read -p "Enter your EVM wallet private key (without 0x): " PRIVATE_KEY
+# Create .env file securely
+while [[ -z "$PRIVATE_KEY" ]]; do
+    read -s -p "Enter your EVM wallet private key (without 0x): " PRIVATE_KEY
+    echo
+done
 
 print_command "Generating .env file..."
 cat <<EOF > .env
 PRIVATE_KEY=$PRIVATE_KEY
 EOF
 
-# Load environment variables from the .env file
+# Load environment variables from .env
 source .env
 
 # Configuration variables
@@ -65,21 +64,21 @@ CHAIN_ID=20993
 CONTRACT_PATH="src/Contract.sol:SimpleStorage"
 VERIFIER_URL="https://blockscout.dev.gblend.xyz/api/"
 
-# Deploy the smart contract
+# Deploy contract
 echo "Deploying contract..."
 DEPLOY_OUTPUT=$(forge create $CONTRACT_PATH --private-key $PRIVATE_KEY --rpc-url $RPC_URL --broadcast)
 
-# Extract the deployed contract address from the output
+# Extract contract address
 CONTRACT_ADDRESS=$(echo "$DEPLOY_OUTPUT" | grep -oP 'Deployed to: \K0x[a-fA-F0-9]+')
 
 if [ -z "$CONTRACT_ADDRESS" ]; then
-    echo "Error: Failed to retrieve the contract address from the output."
+    echo "❌ Error: Failed to deploy contract."
     exit 1
 fi
 
-echo "Contract deployed at: $CONTRACT_ADDRESS"
+echo "✅ Contract deployed at: $CONTRACT_ADDRESS"
 
-# Verify the deployed contract
+# Verify contract
 echo "Verifying contract..."
 forge verify-contract \
     --chain-id $CHAIN_ID \
@@ -90,16 +89,3 @@ forge verify-contract \
     --verifier-url $VERIFIER_URL
 
 echo "✅ Contract verification completed!"
-
-
-
-
-
-
-
-
-
-
-
-
-
